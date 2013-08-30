@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="Javadoc">
+	<property name="project-name"  value="JavadocTest"/>
+	<property name="main-class"  value=""/>
+	<property name="class-path"  value="."/>
+	<property name="base-dir"  value="bin"/>
+	
+	<target name="compile">
+		<javac includeantruntime="false" srcdir="./src" destdir="${base-dir}" classpath="${class-path}" >
+		</javac>
+	</target>
+	
+	<!-- Build all the jar files -->
+	<target name="build" depends="compile" >
+		<mkdir dir="deploy" />
+		<jar jarfile="deploy/${project-name}.jar" basedir="${base-dir}" >
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
+	</target>
+	
+	<!-- Run the jar, not work if main-class is absent -->
+	<target name="run">
+		<java jar="deploy/${project-name}.jar" fork="true">
+		</java>
+	</target>
+	
+	<!-- Generate java document -->
+	<target name="doc">
+		 <javadoc destdir="doc">
+			<fileset dir="src" casesensitive="yes">
+			  <include name="**/*.java"/>
+			</fileset>
+		 </javadoc>
+	</target>
+  
+  
+</project>
